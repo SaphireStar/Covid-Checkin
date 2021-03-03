@@ -1,0 +1,301 @@
+body {
+    background: #eff3f5 !important;
+}
+
+/**  BUSINESS SEARCH **/
+.bizCard .card-img {
+    border:thin solid grey;
+    float:right;
+    height:100%;
+    max-width:200px;
+    margin-bottom: 18px;
+}
+.mb-3 button {
+    width:100%;
+}
+
+/** BIZ PAGE **/
+.bizContainer .contentWrapper {
+    width:100%;
+    display: flex; 
+    overflow: scroll;
+    overflow-y: hidden; /* Hide vertical scrollbar */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+.bizContainer .detailWrapper {
+    float: inline-block;
+    max-width: 70%;
+    min-width: 310px;
+}
+.bizContainer .imgWrapper {
+    display: inline-block;
+    width: 30%;
+    min-width: 150px;
+}
+
+.bizContainer img {
+    width:100%;
+    margin:auto;
+}
+.bizContainer .checkInButton {
+    text-align: center;
+    margin-top:10px;
+    width:100%;
+}
+.bizContainer .checkInButton Button{
+    max-width:300px;
+}
+
+/** BUSINESS REGISTER **/
+.BusinessForm {
+    max-width: 800px;
+    height: 400px;
+    margin: 5% auto;
+}
+
+.BusinessForm h1 {
+    font-size: 4em;
+    color: #3399ff;
+    text-align: center;
+    margin: 10px auto;
+}
+
+.BusinessForm p {
+    color: #33ccff;
+    text-align: center;
+}
+
+.BusinessForm label {
+    color: #33ccff;
+    text-align: center;
+    width: 100%;
+}
+
+.BusinessForm input[type=text] {
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.BusinessForm .span {
+    width: 90%;
+}
+.BusinessForm .half {
+    width: 80%;
+}
+.BusinessForm .formUpdateWrapper {
+    width: 100%;
+    text-align: center;
+}
+.BusinessForm input[type=submit], button {
+    width: 50%;
+    background-color: #3399ff;
+    color: white;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border: none;
+}
+
+.BusinessForm input[type=file] {
+    width: 50%;
+    color: grey;
+    border: none;
+    margin-top:2px;
+}
+.BusinessForm img {
+    max-width: 200px;
+    border-radius:5px;
+}
+
+table {
+  display:block;
+  width: 100%;
+}
+table tbody {
+  display:block;
+  width: 100%;
+}
+table tr {
+  display: table;
+  width: 100%;
+}
+table tr td {
+  width: 50%;
+  text-align: center;
+}
+
+/* BUSINESS PAGE */
+#BusinessPageWrapper {
+    background: #eff3f5;
+}
+
+/* CARD STYLING */
+#businessListWrapper {
+    margin-top: 20px;
+}
+.BusinessList {
+    height: 400px;
+    margin: auto;
+    margin: 5% auto;
+    width: 100%;
+    max-width:800px;
+}
+
+.BusinessList h1 {
+    font-size: 4em;
+    color: #3399ff;
+    text-align: center;
+    margin: 10px auto;
+}
+
+.BusinessList .row {
+    margin-top: 30px;
+}
+
+.BusinessList .card-body-register {
+    background-color: #eff3f5;
+    text-align: center;
+}
+.BusinessList .card-body p {
+    /*border: thin solid black;*/
+    width: 70%;
+    margin: 5px;
+    float:left;
+}
+.BusinessList .card-title {
+    /*border: thin solid black;*/
+    font-weight: 500;
+    font-size: 1.3em;
+}
+.BusinessList .card-img {
+    border:thin solid grey;
+    float:right;
+    margin-top:15px;
+    height:100%;
+}
+.BusinessList img {
+    width: 30%;
+    max-width: 200px;
+    border-radius: 10px;
+}
+
+.BusinessList .icon {
+    color:grey;
+    float: right;
+}
+/* BUSINESS COMPONENT */
+.BusinessComponent {
+    width: 50%;
+    margin: 5% auto;
+}
+
+.BusinessComponent h1 {
+    font-size: 4em;
+    color: #3399ff;
+    text-align: center;
+    margin: 10px auto;
+}
+
+.BusinessComponent h2 {
+    color: #33ccff;
+    font-size: 1em;
+    text-align: center;
+}
+.BusinessComponent table {
+    max-width:300px;
+    margin: auto;
+    margin-top: 50px;
+    text-align: center;
+}
+.BusinessComponent th {
+    color: #3399ff;
+    width: 50%;
+}
+.BusinessComponent td {
+    color: #33ccff;
+    width: 50%;
+}
+.BusinessComponent .dropDown {
+    margin:auto;
+    margin-top: 50px;
+    max-width: 300px;
+    text-align: center;
+}
+.BusinessComponent .dropdown-item {
+    max-width: 315px;
+}
+
+
+/* NOTIFICATION WINDOW */
+.notifyWindow {
+    background-color: #7bdeff69;
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+    border-radius: 5px;
+    min-width: 300px;
+}
+
+.notifyWindow h3 {
+    font-size: 1.1em;
+    font-weight: bold;
+    padding-top: 10px;
+    width: 95%;
+    margin:auto;
+    margin-bottom: 0px;
+    color: #337aff;
+}
+.notifyWindow p {
+    font-size: 1.1em;
+    width: 95%;
+    margin:auto;
+    color: #337aff;
+}
+
+.timeDropdown .dropdown-menu {
+    height: 200px;
+    overflow-y: scroll;
+  }
+  .timeFrameWrapper {
+    margin-top: 5px;
+    display: inline-block;
+    width: 100%;
+}
+.timeFrameWrapper .notifyButton {
+    float: right;
+    display: inline-block;
+    width: 300px;
+    text-align: center;
+}
+.timeFrameWrapper .dateWrapper {
+    float:left;
+    display: inline-block;
+    width: 40%;
+    max-width: 200px;
+    text-align: center;
+    overflow: hidden;
+}
+  .timeDropdown {
+      float:left;
+      display: inline-block;
+      max-width: 150px;
+      width: 30%;
+      text-align: center;
+  }
+
+  /* DELETE MODAL */
+.deleteButtonWrapper {
+    max-width: 200px;
+    margin: auto;
+    margin-top:10px;
+    text-align: center;
+}
+
+.modal-header button {
+    max-width: 50px;
+}
+.modal-footer button {
+    width: 45%;
+    margin: auto;
+}

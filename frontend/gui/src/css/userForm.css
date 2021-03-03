@@ -1,0 +1,50 @@
+body {
+    background: #eff3f5; /*所有都被改成灰色了*/
+}
+
+
+.UserForm {
+    width: 600px;
+    height: 400px;
+    margin: 5% auto;
+}
+
+    .UserForm h1 {
+        color: #3399ff;
+        text-align: center;
+    }
+
+    .UserForm p {
+        color: #33ccff;
+        text-align: center;
+    }
+
+    .UserForm label {
+        width: 100%;
+        color: #33ccff;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .UserForm input[type=text], input[type=password] {
+        width: 100%;
+        padding: 10px 20px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+.UserForm input[type=submit], button {
+    width: 80%;
+    background-color: #3399ff;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 10px 10% 10%;
+    margin-bottom: 10px;
+    border: none;
+}

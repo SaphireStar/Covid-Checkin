@@ -1,0 +1,265 @@
+package au.usyd.elec5619.web;
+<<<<<<< HEAD
+
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import javax.validation.Valid;
+
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.apache.commons.io.IOUtils;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import au.usyd.elec5619.domain.Business;
+import au.usyd.elec5619.domain.Suburb;
+import au.usyd.elec5619.service.BusinessManager;
+import au.usyd.elec5619.service.SuburbManager;
+
+import com.google.gson.*;
+
+@Controller
+@RequestMapping(value="/business/**")
+public class BusinessController {
+	// temp values
+	private boolean bizUser = true;
+	private int userId = 1;
+	
+	@Resource(name="businessManager")
+	private BusinessManager businessManager;
+	
+	@Resource(name="suburbManager")
+	private SuburbManager suburbManager;
+	
+		
+	@RequestMapping(value="/{id}/all", method=RequestMethod.GET)
+	@ResponseBody
+	public String  getUserBusinesses(@PathVariable("id") int id, HttpServletRequest request) {
+		List<Business> businesses = this.businessManager.getBusinesses();
+		for (Business temp : businesses) {
+			// update relative photo path
+			temp.setPhoto(request.getRequestURL().toString().replace(id+"/all", temp.getId()+"/photo"));
+		}
+		return new Gson().toJson(businesses);
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	@ResponseBody
+	public String  getBusiness(@PathVariable("id") long id, HttpServletRequest request) {
+		ObjectMapper mapper = new ObjectMapper();
+		JSONParser parser = new JSONParser();
+		
+		String json = "";
+		try {
+			// Combine Business and Relevant Objects into Single JSON representation
+			// Business
+			Business business = this.businessManager.getBusinessById(id);
+			
+			// Update photo to url path
+	        String photoPath = request.getRequestURL().toString()+"/photo";
+	        business.setPhoto(photoPath);
+	        
+			String jsonInString = new Gson().toJson(business);
+			JSONObject object1 = (JSONObject) parser.parse(jsonInString);
+			// Suburb
+			jsonInString = new Gson().toJson(this.suburbManager.getSuburbByPostcode(business.getPostcode()));
+			JSONObject object2 = (JSONObject) parser.parse(jsonInString);
+			object1.putAll(object2);
+			// Visits
+			
+			
+			json = object1.toJSONString();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return json;
+	}
+	
+	@RequestMapping(value="/add", method=RequestMethod.GET)
+	public String addBusiness(Model uiModel) {
+		if (bizUser) {
+			return "add";
+		} else {
+			return "redirect:/hello.htm";
+		}
+	}
+	
+	@RequestMapping(value="/add", method=RequestMethod.POST)
+	@ResponseBody
+	public String addBusiness(HttpSession session, HttpServletRequest  httpServletRequest) {
+		if (bizUser) {
+			// create new business object
+			Business business = new Business();
+			business.setBusinessName(httpServletRequest.getParameter("businessName"));	
+			business.setPhoneNumber(httpServletRequest.getParameter("phoneNumber"));
+			business.setBusinessEmail(httpServletRequest.getParameter("businessEmail"));
+			business.setAddress(httpServletRequest.getParameter("address"));
+			business.setPostcode(Integer.parseInt(httpServletRequest.getParameter("postcode")));	
+			business.setCapacity(Integer.parseInt(httpServletRequest.getParameter("capacity")));
+
+			// need to handle logic for getting user id
+			// and make sure isBusinessRep is set to true if not already
+			business.setBusinessRepId(userId);
+		
+			
+			//ensure suburb exists in database
+			if (this.suburbManager.getSuburbByPostcode(business.getPostcode()) == null) 
+			{
+				Suburb suburb = new Suburb();
+				suburb.setPostcode(business.getPostcode());
+				suburb.setSuburb(httpServletRequest.getParameter("suburb"));
+				this.suburbManager.addSuburb(suburb);
+			}
+			this.businessManager.addBusiness(business);
+			
+			return new Gson().toJson(business);
+
+		}
+		
+		return "redirect:/hello.htm";
+	}
+	
+	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
+	public String editBusiness(@PathVariable("id") Long id, Model uiModel) {
+		
+		Business business = this.businessManager.getBusinessById(id);
+		uiModel.addAttribute("business", business);
+		
+		return "edit";
+	}
+	
+	@RequestMapping(value="/edit/**", method=RequestMethod.POST)
+	public String editBusiness(@Valid Business business) {
+		//TO UPDATE
+		business.setBusinessRepId(userId);
+		this.businessManager.updateBusiness(business);
+		
+		return "redirect:/hello.htm";
+	}
+	
+	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
+	public String deleteBusiness(@PathVariable("id") Long id) {
+		
+		this.businessManager.deleteBusiness(id);
+		
+		return "redirect:/hello.htm";
+	}
+	
+	@RequestMapping(value="/{id}/photo", method=RequestMethod.POST)
+	public String uploadPhoto(@PathVariable("id") long id, HttpSession session, MultipartHttpServletRequest  httpServletRequest) {
+		if (bizUser) {
+			Business business = this.businessManager.getBusinessById(id);
+			try {
+		        String path=session.getServletContext().getRealPath("/");
+				MultipartFile multipartFile = httpServletRequest.getFile("photo");
+				String name = multipartFile.getOriginalFilename();
+				Path rootPath = Paths.get(path);
+		        Path filePath = Paths.get(rootPath.getParent()+"/uploads/"+business.getBusinessName()+"-"+name);
+		        Files.createDirectories(filePath.getParent());
+		        BufferedOutputStream bout=new BufferedOutputStream(  
+		                 new FileOutputStream(filePath.toString()));
+		        byte barr[]=multipartFile.getBytes();  
+		        bout.write(barr);  
+		        bout.flush();  
+		        bout.close(); 
+		        this.businessManager.updateBusinessPhoto(id, filePath.toString());
+			} catch(Exception e){System.out.println(e);}  
+		}
+		return "redirect:/hello.htm";
+	}
+	
+	@RequestMapping(value="/{id}/photo",
+			produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE},
+			method=RequestMethod.GET)
+    public @ResponseBody byte[] getImage(@PathVariable("id") long id) throws IOException {
+		try {
+			// Combine Business and Relevant Objects into Single JSON representation
+			// Business
+			Business business = this.businessManager.getBusinessById(id);
+			InputStream is = new FileInputStream(business.getPhoto());
+            BufferedImage img = ImageIO.read(is);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(img, "jpg", bos);
+            return bos.toByteArray();
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+}
+=======
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import au.usyd.elec5619.domain.Business;
+import au.usyd.elec5619.service.BusinessService;
+
+@Controller
+@RequestMapping("/business")
+public class BusinessController {
+	
+	@Autowired
+	private BusinessService businessService; 
+	
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	@ResponseBody
+	public Business getBusiness(@PathVariable long id) {
+		return businessService.getBusinessById(id);
+    }
+	
+	@RequestMapping(value="/", method=RequestMethod.GET)
+	@ResponseBody
+	public List<Business> getBusinesses() {
+        return businessService.getBusinesses();
+    } 
+	
+}
+>>>>>>> origin/bizCat-abbey

@@ -1,0 +1,37 @@
+body {
+    background: #eff3f5 !important;
+}
+
+.bizContainer {
+    margin-top: 30px;
+}
+
+.bizList {
+    flex-direction: 'row'
+}
+
+.bizCard a, .bizCard a:hover, .bizCard a:focus, .bizCard a:active {
+    text-decoration: none;
+    color: inherit;
+} 
+
+.bizCard a:hover,
+.bizCard a:visited
+{
+    transform: scale(1.015);
+    background-color: #cadffc;
+}
+
+.bizCard {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.bizList-title {
+    margin-bottom: 30px;
+}
+
+.bizName {
+    font-size: 2rem !important;
+    padding-bottom: 10px;
+}

@@ -1,0 +1,58 @@
+import React from 'react';
+<<<<<<< HEAD
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import BusinessRegister from './components/businessRegister';
+import BusinessPage from './components/businessPage';
+import BusinessManage from './components/businessManage';
+import BusinessEdit from './components/businessEdit';
+import Navbar from './components/navbar';
+
+function App() {
+  return (
+      <Router>
+          <Navbar/>
+          <Switch>
+            <Route exact path="/business/register" component={BusinessRegister} />
+            <Route exact path="/business/:id/edit" component={BusinessEdit} />
+            <Route exact path="/business/:id" component={BusinessPage} />
+            <Route exact path="/business" component={BusinessManage} />
+          </Switch>
+      </Router>
+
+=======
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
+
+import Business from './components/Business';
+import Header from './components/Header';
+import BusinessList from './components/BizList';
+
+import './App.css';
+import './style.css';
+
+function App() {
+  return (
+    <Router>
+      <div>
+        <Header />
+        <Switch>
+          <Route path="/business/search" component={BusinessList} />
+          <Route path="/biz/:id" component={Business} />
+          <Route path="/" component={Home} />
+          <Redirect to="/" />
+        </Switch>
+      </div>
+    </Router>
+>>>>>>> origin/bizCat-abbey
+  );
+}
+function Home() {
+  return <h1>Home</h1>;
+}
+
+export default App;

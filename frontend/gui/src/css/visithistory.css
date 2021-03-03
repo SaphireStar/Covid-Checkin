@@ -1,0 +1,38 @@
+#history h1 {
+    color: #3399ff;
+    text-align: center;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#history table {
+    text-align: center;
+    border-style: solid;
+    border-color: #3399ff;
+    border-collapse: collapse;
+
+    width:800px;
+    margin:0 auto;
+}
+
+#history td, th {
+    border: solid #3399ff;
+    border-width: 1px 1px 1px 1px;
+    height: auto;
+    padding: 5px 5px 10px 10px;
+    color: #808080;
+}
+
+#history .Date {
+    
+    width: 50%;
+}
+
+#history .location {
+    text-align: left;
+    padding-left: 20px;
+}
+
+#history .visit {
+    width: 80px
+}
